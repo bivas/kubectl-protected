@@ -1,0 +1,28 @@
+project_name: kubectl-protected
+release:
+  github:
+    owner: bivas
+    name: kubectl-protected
+builds:
+  - id: protected
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    main: cmd/protected/main.go
+    binary: kubectl-protected
+    ldflags:
+      - -s -w
+archives:
+  - id: protected
+    builds:
+      - protected
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
